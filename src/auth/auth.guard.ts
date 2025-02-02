@@ -1,6 +1,6 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../entities/user.entity';
+import { User } from '../entity/user.entity';
 import { AuthRequest } from '../request.interface';
 import { JWTPayload } from './auth.dto';
 import { UserRepository } from '../repository/user.repository';
