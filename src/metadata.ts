@@ -1,0 +1,5 @@
+/* eslint-disable */
+export default async () => {
+    const t = {};
+    return { "@nestjs/swagger": { "models": [[import("./entities/user.entity"), { "User": { id: { required: true, type: () => String }, email: { required: true, type: () => String }, password: { required: true, type: () => String }, createdAt: { required: true, type: () => Date } } }], [import("./auth/auth.dto"), { "LoginParams": { email: { required: true, type: () => String }, password: { required: true, type: () => String } }, "RegisterParams": { email: { required: true, type: () => String }, password: { required: true, type: () => String } } }]], "controllers": [[import("./auth/auth.controller"), { "AuthController": { "register": {}, "login": {} } }], [import("./account/account.controller"), { "AccountController": { "getAccount": {} } }]] } };
+};
