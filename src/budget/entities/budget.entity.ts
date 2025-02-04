@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
 import { Currency } from '@/currency/entities/currency.entity';
-import { TransactionCategory } from '@/transaction/entities/transaction_category.entity';
 import { User } from '@/auth/entities/user.entity';
+import { TransactionCategory } from '@/transaction_category/entities/transaction_category.entity';
 
 
 @Entity('budgets')

@@ -1,7 +1,7 @@
 
 import { DataSource, Repository } from 'typeorm';
 import { Injectable } from '@nestjs/common';
-import { CarEvent } from '../entities/car_event.entity';
+import { CarEvent } from '../../car_event/entities/car_event.entity';
 
 
 @Injectable()

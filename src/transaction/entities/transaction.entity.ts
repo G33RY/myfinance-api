@@ -2,8 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } f
 
 import { Account } from '@/account/entities/account.entity';
 import { Currency } from '@/currency/entities/currency.entity';
-import { TransactionCategory } from './transaction_category.entity';
 import { User } from '@/auth/entities/user.entity';
+import { TransactionCategory } from '@/transaction_category/entities/transaction_category.entity';
 
 @Entity('transactions')
 export class Transaction {
@@ -38,7 +38,7 @@ export class Transaction {
   recipientAccount?: Account;
 
   @Column({ type: 'jsonb', nullable: true })
-  tags?: object;
+  tags?: string[];
 
   @CreateDateColumn()
   createdAt: Date;

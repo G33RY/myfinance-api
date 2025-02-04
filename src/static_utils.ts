@@ -9,6 +9,14 @@ export function getColumnMetadata(entity: Function, fieldName: string) {
   );
 }
 
+export function getEnumTypes(entity: Function, fieldName: string): (string | number)[] | Object {
+  const columns = getMetadataArgsStorage().columns;
+  const c = columns.find(
+    (col) => col.target === entity && col.propertyName === fieldName
+  );
+  return c?.options.enum || [] as string[];
+}
+
 export function currentUser() {
   return RequestContext.currentContext?.user
 }

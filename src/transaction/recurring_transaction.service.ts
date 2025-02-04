@@ -1,28 +1,28 @@
-import { Injectable } from '@nestjs/common';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { Body, Delete, Get, Injectable, Param, Patch, Post } from '@nestjs/common';
+import { TransactionCategoryService } from '@/transaction_category/transaction_category.service';
+import { RecurringTransactionRepository } from '@/transaction/repositories/recurring_transaction.repository';
+import { CreateRecurringTransactionDto } from '@/transaction/dto/create-recurring_transaction.dto';
+import { UpdateRecurringTransactionDto } from '@/transaction/dto/update-recurring_transaction.dto';
 import { AccountService } from '@/account/account.service';
 import { CurrencyService } from '@/currency/currency.service';
-import { TransactionCategoryService } from '@/transaction_category/transaction_category.service';
 import { currentUserOrFail } from '@/static_utils';
-import { UpdateTransactionDto } from '@/transaction/dto/update-transaction.dto';
-import { TransactionRepository } from '@/transaction/repositories/transaction.repository';
 
 @Injectable()
-export class TransactionService {
+export class RecurringTransactionService {
   constructor(
-    private readonly transactionRepository: TransactionRepository,
+    private readonly recurringTransactionRepository: RecurringTransactionRepository,
     private readonly accountService: AccountService,
     private readonly currencyService: CurrencyService,
     private readonly transactionCategoryService: TransactionCategoryService,
   ) {}
 
-  async create(dto: CreateTransactionDto) {
+  async create(dto: CreateRecurringTransactionDto) {
     const relatedAccount = dto.relatedAccountId ? await this.accountService.findOne(dto.relatedAccountId) : null
     const recipientAccount = dto.recipientAccountId ? await this.accountService.findOne(dto.recipientAccountId) : null
     const currency = await this.currencyService.findOne(dto.currencyCode)
     const transactionCategory = await this.transactionCategoryService.findOne(dto.categoryId)
 
-    return this.transactionRepository.save({
+    return this.recurringTransactionRepository.save({
       ...dto,
       relatedAccount: {
         id: relatedAccount?.id,
@@ -43,7 +43,7 @@ export class TransactionService {
   }
 
   findAll() {
-    return this.transactionRepository.find({
+    return this.recurringTransactionRepository.find({
       where: {
         user: {
           id: currentUserOrFail().id,
@@ -54,7 +54,7 @@ export class TransactionService {
   }
 
   findOne(id: number) {
-    return this.transactionRepository.findOneOrFail({
+    return this.recurringTransactionRepository.findOneOrFail({
       where: {
         id,
         user: {
@@ -65,14 +65,14 @@ export class TransactionService {
     })
   }
 
-  async update(id: number, dto: UpdateTransactionDto) {
+  async update(id: number, dto: UpdateRecurringTransactionDto) {
     const trans = this.findOne(id);
     const relatedAccount = dto.relatedAccountId ? await this.accountService.findOne(dto.relatedAccountId) : null
     const recipientAccount = dto.recipientAccountId ? await this.accountService.findOne(dto.recipientAccountId) : null
     const currency = dto.currencyCode ?  await this.currencyService.findOne(dto.currencyCode) : null
     const transactionCategory = dto.categoryId ? await this.transactionCategoryService.findOne(dto.categoryId) : null
 
-    return this.transactionRepository.save({
+    return this.recurringTransactionRepository.save({
       ...trans,
       ...dto,
       relatedAccount: {
@@ -92,6 +92,6 @@ export class TransactionService {
 
   async remove(id: number) {
     const trans = await this.findOne(id);
-    return this.transactionRepository.remove(trans)
+    return this.recurringTransactionRepository.remove(trans)
   }
 }

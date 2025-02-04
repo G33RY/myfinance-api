@@ -8,8 +8,8 @@ export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   @Post()
-  create(@Body() createTransactionDto: CreateTransactionDto) {
-    return this.transactionService.create(createTransactionDto);
+  create(@Body() dto: CreateTransactionDto) {
+    return this.transactionService.create(dto);
   }
 
   @Get()
@@ -23,8 +23,8 @@ export class TransactionController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {
-    return this.transactionService.update(+id, updateTransactionDto);
+  update(@Param('id') id: string, @Body() dto: UpdateTransactionDto) {
+    return this.transactionService.update(+id, dto);
   }
 
   @Delete(':id')

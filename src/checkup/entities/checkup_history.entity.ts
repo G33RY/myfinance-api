@@ -16,7 +16,7 @@ export class CheckupHistory {
   account: Account;
 
   @ManyToOne(() => Transaction)
-  transaction: Transaction;
+  discrepancyTransaction: Transaction;
 
   @Column()
   checkupDate: Date; // When the checkup was performed

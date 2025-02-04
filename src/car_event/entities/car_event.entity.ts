@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } from 'typeorm';
-import { Car } from './car.entity';
+import { Car } from '../../car/entities/car.entity';
 
 @Entity('car_events')
 export class CarEvent {

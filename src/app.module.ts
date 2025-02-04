@@ -10,6 +10,9 @@ import { BudgetModule } from './budget/budget.module';
 import { AccountModule } from './account/account.module';
 import { GlobalModule } from './global.module';
 import { ContextModule } from '@/context/context.module';
+import { TransactionCategoryModule } from './transaction_category/transaction_category.module';
+import { CarEventModule } from './car_event/car_event.module';
+import { CarReminderModule } from './car_reminder/car_reminder.module';
 
 @Module({
   imports: [
@@ -24,8 +27,11 @@ import { ContextModule } from '@/context/context.module';
     BudgetModule,
     CarModule,
     TransactionModule,
+    TransactionCategoryModule,
     CheckupModule,
     CurrencyModule,
+    CarEventModule,
+    CarReminderModule,
   ],
   controllers: [],
   providers: [],

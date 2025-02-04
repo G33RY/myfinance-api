@@ -22,7 +22,7 @@ export class CurrencyService {
   }
 
   findOne(code: string) {
-    return this.currencyRepository.findOne({
+    return this.currencyRepository.findOneOrFail({
       where: {
         code
       }

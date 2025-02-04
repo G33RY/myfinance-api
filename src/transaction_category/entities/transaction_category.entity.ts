@@ -8,13 +8,13 @@ export class TransactionCategory {
   id: number;
 
   @ManyToOne(() => User)
-  user: User; // Each user can have their own categories
+  user: User;
 
   @Column()
-  name: string; // Example: "Food", "Rent", "Fuel"
+  name: string;
 
   @Column({ type: 'enum', enum: ['income', 'expense', 'transfer'] })
-  type: 'income' | 'expense' | 'transfer'; // Defines if it's for income, expenses, or transfers
+  type: 'income' | 'expense' | 'transfer';
 
   @CreateDateColumn()
   createdAt: Date;

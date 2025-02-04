@@ -1,26 +1,56 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCheckupDto } from './dto/create-checkup.dto';
-import { UpdateCheckupDto } from './dto/update-checkup.dto';
+import { currentUserOrFail } from '@/static_utils';
+import { UpdateCheckupDto } from '@/checkup/dto/update-checkup.dto';
+import { CheckupHistoryRepository } from '@/checkup/repositories/checkup_history.repository';
 
 @Injectable()
 export class CheckupService {
-  create(createCheckupDto: CreateCheckupDto) {
-    return 'This action adds a new checkup';
+  constructor(
+    private readonly repository: CheckupHistoryRepository,
+  ) {}
+
+
+  create(dto: CreateCheckupDto) {
+    return this.repository.save({
+      ...dto,
+      user: currentUserOrFail(),
+      accountId: {
+        id: dto.accountId
+      },
+      discrepancyTransaction: {
+        // This is a placeholder for the discrepancy transaction
+      }
+    })
   }
 
   findAll() {
-    return `This action returns all checkup`;
+    return this.repository.find({
+      where: {
+        user: currentUserOrFail()
+      }
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} checkup`;
+    return this.repository.findOneOrFail({
+      where: {
+        id,
+        user: currentUserOrFail()
+      }
+    })
   }
 
-  update(id: number, updateCheckupDto: UpdateCheckupDto) {
-    return `This action updates a #${id} checkup`;
+  async update(id: number, dto: UpdateCheckupDto) {
+    const car = await this.findOne(id);
+    return this.repository.save({
+      ...car,
+      ...dto
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} checkup`;
+  async remove(id: number) {
+    const car = await this.findOne(id);
+    return this.repository.remove(car);
   }
 }

@@ -9,7 +9,6 @@ async function bootstrap() {
     .setTitle('My Finance API')
     .setDescription('The My Finance API description')
     .setVersion('1.0')
-    .addTag('finance')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory, {
