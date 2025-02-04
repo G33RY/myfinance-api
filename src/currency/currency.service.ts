@@ -1,26 +1,43 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCurrencyDto } from './dto/create-currency.dto';
 import { UpdateCurrencyDto } from './dto/update-currency.dto';
+import { Currency } from '@/currency/entities/currency.entity';
+import { CurrencyRepository } from '@/currency/repositories/currency.repository';
 
 @Injectable()
 export class CurrencyService {
+  constructor(
+    private currencyRepository: CurrencyRepository
+  ) {
+  }
+
   create(createCurrencyDto: CreateCurrencyDto) {
-    return 'This action adds a new currency';
+    return this.currencyRepository.save({
+      ...createCurrencyDto
+    })
   }
 
   findAll() {
-    return `This action returns all currency`;
+    return this.currencyRepository.find()
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} currency`;
+  findOne(code: string) {
+    return this.currencyRepository.findOne({
+      where: {
+        code
+      }
+    })
   }
 
-  update(id: number, updateCurrencyDto: UpdateCurrencyDto) {
-    return `This action updates a #${id} currency`;
+  update(code: string, updateCurrencyDto: UpdateCurrencyDto) {
+    return this.currencyRepository.update({ code }, {
+      ...updateCurrencyDto
+    })
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} currency`;
+  remove(code: string) {
+    return this.currencyRepository.delete({
+        code
+    })
   }
 }

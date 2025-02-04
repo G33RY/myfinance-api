@@ -19,16 +19,16 @@ export class CurrencyController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.currencyService.findOne(+id);
+    return this.currencyService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCurrencyDto: UpdateCurrencyDto) {
-    return this.currencyService.update(+id, updateCurrencyDto);
+    return this.currencyService.update(id, updateCurrencyDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.currencyService.remove(+id);
+    return this.currencyService.remove(id);
   }
 }
