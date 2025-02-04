@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn } f
 import { Currency } from '@/currency/entities/currency.entity';
 import { User } from '@/auth/entities/user.entity';
 
+
 @Entity('accounts')
 export class Account {
   @PrimaryGeneratedColumn()
