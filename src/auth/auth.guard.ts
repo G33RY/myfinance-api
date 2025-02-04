@@ -1,9 +1,7 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthRequest } from '@/request.interface';
-import { JWTPayload } from './auth.dto';
 import { AuthService } from './auth.service';
-import { User } from '@/auth/entities/user.entity';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -12,29 +10,9 @@ export class AuthGuard implements CanActivate {
     private authService: AuthService,
   ) {}
 
-  async getUser(token: string|null): Promise<User | null> {
-    if(!token) {
-      return null;
-    }
-    if(token.includes(" "))  {
-      token = token.split(" ")[1];
-    }
-
-    try {
-      const payload = this.jwtService.verify<JWTPayload>(token);
-      if (!payload) {
-        return null;
-      }
-      return await this.authService.verifyJWTPayload(payload);
-    } catch {
-      return null;
-    }
-  }
-
-
   async handleHttp(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<AuthRequest>();
-    const user = await this.getUser(request.headers['authorization'] || null);
+    const user = await this.authService.getUserFromRequest(request)
     if (!user) {
       return false;
     }
@@ -44,7 +22,7 @@ export class AuthGuard implements CanActivate {
 
   async handleWs(context: ExecutionContext): Promise<boolean> {
     const client = context.switchToWs().getClient();
-    const user = await this.getUser(client.handshake.headers['authorization'] || null);
+    const user = await this.authService.getUserFromToken(client.handshake.headers['authorization'] || null);
     if (!user) {
       return false;
     }
